@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala | Chat LAN</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<!-- Tela principal da conversa em tempo real. -->
+<main class="chat-layout">
+    <section class="panel chat-panel">
+        <div class="chat-header">
+            <div>
+                <p class="eyebrow">Sala unica</p>
+                <h2>Mensagens em tempo real</h2>
+                <!-- Texto preenchido dinamicamente com o nome do usuario atual. -->
+                <p id="welcome" class="description compact"></p>
+            </div>
+            <div class="chat-actions">
+                <!-- Link para voltar a tela inicial e trocar o nome armazenado na sessao. -->
+                <a class="secondary-button" href="/">Trocar nome</a>
+                <!-- Indicador visual do estado da conexao WebSocket. -->
+                <span id="status" class="status offline">Desconectado</span>
+            </div>
+        </div>
+
+        <!-- Area onde todas as mensagens recebidas serao adicionadas. -->
+        <div id="messages" class="messages" aria-live="polite"></div>
+
+        <!-- Formulario usado para enviar novas mensagens para o servidor. -->
+        <form id="message-form" class="message-form">
+            <input id="message" name="message" type="text" maxlength="400" placeholder="Digite sua mensagem..." disabled required>
+            <button type="submit" disabled>Enviar</button>
+        </form>
+    </section>
+</main>
+
+<script src="/webjars/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.4/stomp.min.js"></script>
+<script>
+    // Recupera o nome salvo na tela anterior.
+    const senderName = sessionStorage.getItem('chat.sender');
+
+    // Se o usuario tentar abrir a sala sem nome salvo, volta para a tela inicial.
+    if (!senderName) {
+        window.location.href = '/';
+    }
+
+    // Referencias aos elementos que serao atualizados durante a conversa.
+    const messageForm = document.getElementById('message-form');
+    const messageInput = document.getElementById('message');
+    const statusBadge = document.getElementById('status');
+    const messages = document.getElementById('messages');
+    const sendButton = messageForm.querySelector('button');
+    const welcome = document.getElementById('welcome');
+
+    // Cliente STOMP usado para conversar com o backend atraves do WebSocket.
+    let stompClient = null;
+
+    // Exibe na tela o nome do usuario autenticado localmente.
+    welcome.textContent = 'Conectado como ' + senderName + '.';
+
+    // Intercepta o envio do formulario para mandar a mensagem pelo WebSocket.
+    messageForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        // Pega o texto digitado e remove espacos extras nas pontas.
+        const content = messageInput.value.trim();
+
+        // Nao envia se a mensagem estiver vazia ou se a conexao ainda nao estiver pronta.
+        if (!content || !stompClient) {
+            return;
+        }
+
+        // Envia ao backend o nome do remetente e o conteudo da mensagem.
+        stompClient.send('/app/send', {}, JSON.stringify({
+            sender: senderName,
+            content: content
+        }));
+
+        // Limpa o campo para a proxima mensagem e devolve o foco ao input.
+        messageInput.value = '';
+        messageInput.focus();
+    });
+
+    // Tenta abrir a conexao com o servidor assim que a pagina carrega.
+    connect();
+
+    function connect() {
+        // Abre a conexao no endpoint configurado pelo backend.
+        const socket = new SockJS('/chat');
+        // Envolve a conexao com STOMP para facilitar subscribe/send.
+        stompClient = Stomp.over(socket);
+        // Define callbacks para sucesso e falha na conexao.
+        stompClient.connect({}, onConnected, onError);
+    }
+
+    function onConnected() {
+        // Fica inscrito no topico onde o servidor publica todas as mensagens da sala.
+        stompClient.subscribe('/topic/messages', (payload) => {
+            renderMessage(JSON.parse(payload.body));
+        });
+
+        // Libera o formulario de envio depois que a conexao estiver ativa.
+        messageInput.disabled = false;
+        sendButton.disabled = false;
+        messageInput.focus();
+        // Atualiza o indicador visual de status.
+        statusBadge.textContent = 'Conectado';
+        statusBadge.className = 'status online';
+        // Mostra um aviso local na interface quando o usuario entra na sala.
+        renderSystemMessage(senderName + ' entrou na sala.');
+    }
+
+    function onError() {
+        // Informa ao usuario que a conexao com o servidor falhou.
+        statusBadge.textContent = 'Falha na conexao';
+        statusBadge.className = 'status offline';
+        stompClient = null;
+    }
+
+    function renderMessage(message) {
+        // Cria o container visual de cada mensagem recebida.
+        const wrapper = document.createElement('article');
+        // Destaca com estilo diferente as mensagens enviadas pelo proprio usuario.
+        wrapper.className = 'message' + (message.sender === senderName ? ' mine' : '');
+
+        // Converte o horario recebido do backend para o formato local.
+        const time = message.sentAt ? new Date(message.sentAt).toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit'
+        }) : '';
+
+        // Monta o HTML da mensagem ja escapando conteudo potencialmente perigoso.
+        wrapper.innerHTML = `
+            <header>
+                <strong>${escapeHtml(message.sender)}</strong>
+                <span>${time}</span>
+            </header>
+            <p>${escapeHtml(message.content)}</p>
+        `;
+
+        // Adiciona a mensagem no fim da lista e faz o scroll acompanhar a conversa.
+        messages.appendChild(wrapper);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function renderSystemMessage(text) {
+        // Cria um aviso simples para eventos locais da interface.
+        const notice = document.createElement('p');
+        notice.className = 'system-message';
+        notice.textContent = text;
+        messages.appendChild(notice);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function escapeHtml(value) {
+        // Escapa caracteres especiais para evitar injecao de HTML no chat.
+        return value
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#39;');
+    }
+</script>
+</body>
+</html>

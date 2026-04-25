@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar | Chat LAN</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<!-- Tela inicial onde o usuario informa o nome antes de entrar na sala. -->
+<main class="single-layout">
+    <section class="panel hero login-panel">
+        <p class="eyebrow">Spring Boot + WebSocket</p>
+        <h1>Chat para a mesma rede</h1>
+        <p class="description">
+            Execute o servidor em um computador e abra este mesmo endereco nos outros dispositivos da rede local.
+        </p>
+
+        <!-- Formulario que captura o nome do usuario. -->
+        <form id="join-form" class="join-form">
+            <label for="sender">Seu nome</label>
+            <div class="join-row">
+                <input id="sender" name="sender" type="text" maxlength="24" placeholder="Ex.: Julia" required>
+                <button type="submit">Entrar</button>
+            </div>
+        </form>
+
+        <!-- Bloco informativo mostrando como acessar a aplicacao pela rede local. -->
+        <div class="info-card">
+            <strong>Como usar na LAN</strong>
+            <p>Se o servidor rodar no IP <code>192.168.0.15</code>, os outros computadores acessam <code>http://192.168.0.15:8080</code>.</p>
+        </div>
+    </section>
+</main>
+
+<script>
+    // Busca os elementos da tela que serao manipulados pelo JavaScript.
+    const joinForm = document.getElementById('join-form');
+    const senderInput = document.getElementById('sender');
+
+    // Quando o formulario for enviado, o nome e salvo e o usuario vai para a sala do chat.
+    joinForm.addEventListener('submit', (event) => {
+        // Evita o envio tradicional do formulario e o recarregamento da pagina.
+        event.preventDefault();
+        // Remove espacos extras do nome digitado.
+        const senderName = senderInput.value.trim();
+
+        // Se o nome estiver vazio, mantem o foco no campo para o usuario corrigir.
+        if (!senderName) {
+            senderInput.focus();
+            return;
+        }
+
+        // Guarda o nome apenas durante a sessao atual do navegador.
+        sessionStorage.setItem('chat.sender', senderName);
+        // Redireciona o usuario para a tela do chat.
+        window.location.href = '/chat.html';
+    });
+
+    // Se ja houver um nome salvo, reaproveita no campo para facilitar uma nova entrada.
+    const storedName = sessionStorage.getItem('chat.sender');
+    if (storedName) {
+        senderInput.value = storedName;
+    }
+</script>
+</body>
+</html>

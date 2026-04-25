@@ -1,0 +1,328 @@
+:root {
+    /* Variaveis de cor e sombra reaproveitadas em toda a interface. */
+    --bg: #f5efe3;
+    --panel: rgba(255, 252, 246, 0.9);
+    --panel-strong: #fffaf1;
+    --text: #1f2933;
+    --muted: #52606d;
+    --accent: #c2512d;
+    --accent-dark: #8f3416;
+    --border: rgba(31, 41, 51, 0.12);
+    --shadow: 0 24px 80px rgba(80, 58, 40, 0.14);
+}
+
+* {
+    /* Faz padding e border entrarem no calculo total de largura e altura. */
+    box-sizing: border-box;
+}
+
+body {
+    /* Remove margens padrao e define o fundo geral da aplicacao. */
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at top left, rgba(194, 81, 45, 0.18), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(60, 146, 119, 0.18), transparent 26%),
+        linear-gradient(135deg, #f7f1e6 0%, #efe4d2 100%);
+}
+
+.layout {
+    /* Layout em duas colunas, mantido para expansoes futuras. */
+    width: min(1100px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 32px 0;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 24px;
+}
+
+.single-layout {
+    /* Centraliza a tela de entrada vertical e horizontalmente. */
+    width: min(720px, calc(100% - 32px));
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 0;
+}
+
+.chat-layout {
+    /* Define a largura da area principal da sala de chat. */
+    width: min(980px, calc(100% - 32px));
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 32px 0;
+}
+
+.panel {
+    /* Estilo base dos blocos com efeito de vidro fosco. */
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+}
+
+.hero {
+    /* Espacamento interno do painel de destaque. */
+    padding: 32px;
+}
+
+.login-panel {
+    /* Faz o painel de login ocupar a largura disponivel. */
+    width: 100%;
+}
+
+.eyebrow {
+    /* Texto pequeno acima dos titulos para contextualizacao visual. */
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.78rem;
+    color: var(--accent-dark);
+}
+
+h1,
+h2 {
+    /* Remove margem padrao dos titulos e ajusta altura de linha. */
+    margin: 0;
+    line-height: 1.05;
+}
+
+h1 {
+    /* Titulo principal responsivo na tela de entrada. */
+    font-size: clamp(2.4rem, 5vw, 4.8rem);
+}
+
+h2 {
+    /* Titulo da sala de chat. */
+    font-size: 1.6rem;
+}
+
+.description,
+.info-card p {
+    /* Padrao de texto secundario da interface. */
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.description.compact {
+    /* Variante com menor espacamento superior. */
+    margin-top: 8px;
+}
+
+.join-form,
+.info-card {
+    /* Separa visualmente os blocos do painel de entrada. */
+    margin-top: 28px;
+}
+
+.join-form label {
+    /* Deixa o rotulo do campo mais legivel. */
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.join-row,
+.message-form {
+    /* Organiza input e botao lado a lado. */
+    display: flex;
+    gap: 12px;
+}
+
+input,
+button {
+    /* Padrao visual compartilhado entre campos e botoes. */
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    font: inherit;
+}
+
+input {
+    /* Aparencia dos campos de texto. */
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.78);
+}
+
+button {
+    /* Estilo principal dos botoes de acao. */
+    padding: 14px 18px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent) 0%, #dd7a45 100%);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 12px 24px rgba(194, 81, 45, 0.28);
+}
+
+button:hover:enabled {
+    /* Pequena animacao para indicar interacao. */
+    transform: translateY(-1px);
+}
+
+button:disabled,
+input:disabled {
+    /* Estado visual para elementos indisponiveis. */
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.info-card {
+    /* Caixa com orientacao sobre o uso na rede local. */
+    padding: 18px 20px;
+    border-radius: 20px;
+    background: var(--panel-strong);
+    border: 1px solid var(--border);
+}
+
+.chat-panel {
+    /* Estrutura principal da sala com cabecalho, mensagens e formulario. */
+    display: flex;
+    flex-direction: column;
+    min-height: 75vh;
+    padding: 24px;
+}
+
+.chat-header {
+    /* Distribui titulo e acoes no topo da sala. */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.chat-actions {
+    /* Agrupa link secundario e status da conexao. */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.secondary-button {
+    /* Botao visualmente secundario para voltar e trocar o nome. */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+}
+
+.status {
+    /* Estilo base do indicador de conexao. */
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.status.online {
+    /* Cor mostrada quando o WebSocket esta conectado. */
+    background: rgba(33, 145, 107, 0.15);
+    color: #176b4e;
+}
+
+.status.offline {
+    /* Cor mostrada quando o cliente esta desconectado. */
+    background: rgba(164, 63, 63, 0.14);
+    color: #8c2e2e;
+}
+
+.messages {
+    /* Area rolavel onde as mensagens sao acumuladas. */
+    flex: 1;
+    min-height: 420px;
+    overflow-y: auto;
+    padding: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.message {
+    /* Estilo das mensagens recebidas de outros usuarios. */
+    max-width: 75%;
+    margin: 0 0 14px;
+    padding: 14px 16px;
+    border-radius: 18px 18px 18px 6px;
+    background: white;
+    box-shadow: 0 10px 24px rgba(79, 70, 60, 0.08);
+}
+
+.message.mine {
+    /* Variante das mensagens enviadas pelo proprio usuario. */
+    margin-left: auto;
+    border-radius: 18px 18px 6px 18px;
+    background: #fff2ea;
+}
+
+.message header {
+    /* Linha superior com nome do remetente e horario. */
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.message header span,
+.system-message {
+    /* Cor mais suave para horario e avisos do sistema. */
+    color: var(--muted);
+}
+
+.message p {
+    /* Configuracao do corpo do texto de cada mensagem. */
+    margin: 0;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.system-message {
+    /* Avisos locais centralizados no meio da conversa. */
+    margin: 0 0 14px;
+    text-align: center;
+    font-size: 0.92rem;
+}
+
+.message-form {
+    /* Espacamento entre a lista de mensagens e o campo de envio. */
+    margin-top: 18px;
+}
+
+@media (max-width: 900px) {
+    .layout {
+        /* Em telas menores, o layout de duas colunas passa a uma unica coluna. */
+        grid-template-columns: 1fr;
+    }
+
+    .chat-layout {
+        /* Em telas pequenas, a sala usa toda a altura disponivel. */
+        align-items: stretch;
+    }
+
+    .chat-panel {
+        /* Reduz a altura minima para melhor encaixe em celulares. */
+        min-height: 65vh;
+    }
+
+    .chat-header {
+        /* Empilha o cabecalho em dispositivos menores. */
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
