@@ -1,5 +1,5 @@
 :root {
-    /* Variaveis de cor e sombra reaproveitadas em toda a interface. */
+    /* Variáveis de cor e sombra reaproveitadas em toda a interface. */
     --bg: #e6f0ea;
     --panel: rgba(244, 250, 246, 0.9);
     --panel-strong: rgba(237, 246, 241, 0.96);
@@ -21,7 +21,7 @@
 }
 
 body {
-    /* Remove margens padrao e define o fundo geral da aplicacao. */
+    /* Remove margens padrão e define o fundo geral da aplicação. */
     margin: 0;
     min-height: 100vh;
     font-family: "Trebuchet MS", "Segoe UI", sans-serif;
@@ -60,7 +60,7 @@ body::after {
 }
 
 .layout {
-    /* Layout em duas colunas, mantido para expansoes futuras. */
+    /* Layout em duas colunas, mantido para expansões futuras. */
     width: min(1100px, calc(100% - 32px));
     margin: 0 auto;
     padding: 32px 0;
@@ -87,6 +87,7 @@ body::after {
     margin: 0 auto;
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 32px 0;
 }
 
@@ -117,12 +118,12 @@ body::after {
 }
 
 .login-panel {
-    /* Faz o painel de login ocupar a largura disponivel. */
+    /* Faz o painel de login ocupar a largura disponível. */
     width: 100%;
 }
 
 .eyebrow {
-    /* Texto pequeno acima dos titulos para contextualizacao visual. */
+    /* Texto pequeno acima dos títulos para contextualização visual. */
     margin: 0 0 10px;
     text-transform: uppercase;
     letter-spacing: 0.16em;
@@ -144,7 +145,7 @@ body::after {
 
 h1,
 h2 {
-    /* Remove margem padrao dos titulos e ajusta altura de linha. */
+    /* Remove margem padrão dos títulos e ajusta altura de linha. */
     margin: 0;
     line-height: 1.05;
 }
@@ -163,13 +164,13 @@ h2 {
 
 .description,
 .info-card p {
-    /* Padrao de texto secundario da interface. */
+    /* Padrão de texto secundário da interface. */
     color: var(--muted);
     line-height: 1.6;
 }
 
 .description.compact {
-    /* Variante com menor espacamento superior. */
+    /* Variante com menor espaçamento superior. */
     margin-top: 8px;
 }
 
@@ -213,14 +214,14 @@ h2 {
 
 input,
 button {
-    /* Padrao visual compartilhado entre campos e botoes. */
+    /* Padrão visual compartilhado entre campos e botões. */
     border-radius: 16px;
     border: 1px solid var(--border);
     font: inherit;
 }
 
 input {
-    /* Aparencia dos campos de texto. */
+    /* Aparência dos campos de texto. */
     width: 100%;
     padding: 14px 16px;
     background: rgba(255, 255, 255, 0.82);
@@ -233,7 +234,7 @@ input:focus {
 }
 
 button {
-    /* Estilo principal dos botoes de acao. */
+    /* Estilo principal dos botões de ações. */
     padding: 14px 18px;
     border: none;
     background: linear-gradient(135deg, var(--accent) 0%, var(--river) 100%);
@@ -245,13 +246,13 @@ button {
 }
 
 button:hover:enabled {
-    /* Pequena animacao para indicar interacao. */
+    /* Pequena animação para indicar interação. */
     transform: translateY(-1px);
 }
 
 button:disabled,
 input:disabled {
-    /* Estado visual para elementos indisponiveis. */
+    /* Estado visual para elementos indisponíveis. */
     cursor: not-allowed;
     opacity: 0.6;
 }
@@ -288,7 +289,8 @@ input:disabled {
 }
 
 .chat-panel {
-    /* Estrutura principal da sala com cabecalho, mensagens e formulario. */
+    /* Estrutura principal da sala com cabeçalho, mensagens e formulário. */
+    width: min(820px, 100%);
     display: flex;
     flex-direction: column;
     min-height: 75vh;
@@ -296,7 +298,7 @@ input:disabled {
 }
 
 .chat-header {
-    /* Distribui titulo e acoes no topo da sala. */
+    /* Distribui titulo e ações no topo da sala. */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -305,14 +307,14 @@ input:disabled {
 }
 
 .chat-actions {
-    /* Agrupa link secundario e status da conexao. */
+    /* Agrupa link secundário e status da conexão. */
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
 .secondary-button {
-    /* Botao visualmente secundario para voltar e trocar o nome. */
+    /* Botão visualmente secundário para voltar e trocar o nome. */
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -326,7 +328,7 @@ input:disabled {
 }
 
 .status {
-    /* Estilo base do indicador de conexao. */
+    /* Estilo base do indicador de conexão. */
     border-radius: 999px;
     padding: 8px 14px;
     font-size: 0.9rem;
@@ -358,7 +360,7 @@ input:disabled {
 }
 
 .message {
-    /* Estilo das mensagens recebidas de outros usuarios. */
+    /* Estilo das mensagens recebidas de outros usuários. */
     max-width: 75%;
     margin: 0 0 14px;
     padding: 14px 16px;
@@ -369,14 +371,14 @@ input:disabled {
 }
 
 .message.mine {
-    /* Variante das mensagens enviadas pelo proprio usuario. */
+    /* Variante das mensagens enviadas pelo próprio usuário. */
     margin-left: auto;
     border-radius: 18px 18px 6px 18px;
     background: linear-gradient(180deg, #e7f3ef 0%, #dbefe8 100%);
 }
 
 .message header {
-    /* Linha superior com nome do remetente e horario. */
+    /* Linha superior com nome do remetente e horário. */
     display: flex;
     justify-content: space-between;
     gap: 12px;
@@ -386,12 +388,12 @@ input:disabled {
 
 .message header span,
 .system-message {
-    /* Cor mais suave para horario e avisos do sistema. */
+    /* Cor mais suave para horário e avisos do sistema. */
     color: var(--muted);
 }
 
 .message p {
-    /* Configuracao do corpo do texto de cada mensagem. */
+    /* Configuração do corpo do texto de cada mensagem. */
     margin: 0;
     line-height: 1.5;
     white-space: pre-wrap;
@@ -409,7 +411,7 @@ input:disabled {
 }
 
 .message-form {
-    /* Espacamento entre a lista de mensagens e o campo de envio. */
+    /* Espaçamento entre a lista de mensagens e o campo de envio. */
     margin-top: 18px;
 }
 
@@ -420,7 +422,7 @@ input:disabled {
     }
 
     .chat-layout {
-        /* Em telas pequenas, a sala usa toda a altura disponivel. */
+        /* Em telas pequenas, a sala usa toda a altura disponível. */
         align-items: stretch;
     }
 
@@ -430,7 +432,7 @@ input:disabled {
     }
 
     .chat-header {
-        /* Empilha o cabecalho em dispositivos menores. */
+        /* Empilha o cabeçalho em dispositivos menores. */
         align-items: flex-start;
         flex-direction: column;
     }

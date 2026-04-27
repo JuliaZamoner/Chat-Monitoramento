@@ -7,7 +7,7 @@ public class ChatMessage {
 
     // Nome do usuario que enviou a mensagem.
     private String sender;
-    // Texto digitado pelo usuario.
+    // Texto digitado pelo usuário.
     private String content;
     // Data e hora em que o servidor processou a mensagem.
     private LocalDateTime sentAt;

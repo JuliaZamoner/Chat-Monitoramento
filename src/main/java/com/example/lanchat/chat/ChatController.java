@@ -8,7 +8,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 
-// Controlador responsavel por receber mensagens via WebSocket e reenviar aos clientes conectados.
+// Controlador responsável por receber mensagens via WebSocket e reenviar aos clientes conectados.
 @Controller
 public class ChatController {
 
@@ -21,24 +21,24 @@ public class ChatController {
             message = new ChatMessage();
         }
 
-        // Cria um novo objeto com dados tratados antes de reenviar aos usuarios.
+        // Cria um novo objeto com dados tratados antes de reenviar aos usuários.
         ChatMessage sanitized = new ChatMessage();
-        // Usa um nome padrao se o remetente vier vazio.
+        // Usa um nome padrão se o remetente vier vazio.
         sanitized.setSender(normalize(message.getSender(), "Anonimo"));
-        // Remove espacos extras e evita retornar null no conteudo.
+        // Remove espaços extras e evita retornar null no conteúdo.
         sanitized.setContent(normalize(message.getContent(), ""));
-        // Registra o horario do lado do servidor.
+        // Registra o horário do lado do servidor.
         sanitized.setSentAt(LocalDateTime.now());
         return sanitized;
     }
 
-    // Normaliza campos de texto, aplicando valor padrao quando necessario.
+    // Normaliza campos de texto, aplicando valor padrão quando necessário.
     private String normalize(String value, String fallback) {
         if (!StringUtils.hasText(value)) {
             return fallback;
         }
 
-        // Remove espacos desnecessarios no inicio e no final do texto.
+        // Remove espaços desnecessários no início e no final do texto.
         return value.trim();
     }
 }

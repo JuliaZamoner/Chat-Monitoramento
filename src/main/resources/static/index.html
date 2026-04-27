@@ -3,70 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar | Monitor Rio Tiete</title>
+    <title>Chat</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<!-- Tela inicial onde o usuario informa o nome antes de entrar na sala. -->
+<!-- Tela inicial onde o usuário informa o nome antes de entrar na sala. -->
 <main class="single-layout">
     <section class="panel hero login-panel">
         <p class="hero-brand">Secretaria de Estado do Meio Ambiente</p>
-        <p class="eyebrow">Painel de monitoramento ambiental</p>
+        <p class="eyebrow">Bate-Papo</p>
         <h1>Monitor Colaborativo</h1>
-        <p class="description">
-            Registre observacoes em tempo real sobre atividades industriais com potencial de poluicao ao longo do rio,
-            desde a nascente em Salesopolis (SP).
-        </p>
-        <div class="theme-strip" aria-label="Temas monitorados">
-            <span class="theme-chip">Nascente</span>
-            <span class="theme-chip">Trechos do rio</span>
-            <span class="theme-chip">Fontes industriais</span>
-            <span class="theme-chip">Ocorrencias ambientais</span>
-        </div>
-
-        <!-- Formulario que captura o nome do usuario. -->
+        <!-- Formulário que captura o nome do usuário. -->
         <form id="join-form" class="join-form">
-            <label for="sender">Identificacao do agente</label>
+            <label for="sender">Entre com o seu nome</label>
             <div class="join-row">
-                <input id="sender" name="sender" type="text" maxlength="24" placeholder="Ex.: Julia - Fiscalizacao" required>
-                <button type="submit">Acessar painel</button>
+                <input id="sender" name="sender" type="text" maxlength="24" required>
+                <button type="submit">Acessar</button>
             </div>
         </form>
 
-        <!-- Bloco informativo mostrando como acessar a aplicacao pela rede local. -->
-        <div class="info-card">
-            <p class="section-label">Operacao em rede local</p>
-            <strong>Compartilhamento entre equipes de campo</strong>
-            <p>Se o servidor rodar no IP <code>192.168.0.15</code>, as demais estacoes acessam <code>http://192.168.0.15:8080</code> para acompanhar e registrar ocorrencias no mesmo painel.</p>
-        </div>
     </section>
 </main>
 
 <script>
-    // Busca os elementos da tela que serao manipulados pelo JavaScript.
+    // Busca os elementos da tela que serão manipulados pelo JavaScript.
     const joinForm = document.getElementById('join-form');
     const senderInput = document.getElementById('sender');
 
-    // Quando o formulario for enviado, o nome e salvo e o usuario vai para a sala do chat.
+    // Quando o formulário for enviado, o nome e salvo e o usuário vai para a sala do chat.
     joinForm.addEventListener('submit', (event) => {
-        // Evita o envio tradicional do formulario e o recarregamento da pagina.
+        // Evita o envio tradicional do formulário e o recarregamento da página.
         event.preventDefault();
-        // Remove espacos extras do nome digitado.
+        // Remove espaços extras do nome digitado.
         const senderName = senderInput.value.trim();
 
-        // Se o nome estiver vazio, mantem o foco no campo para o usuario corrigir.
+        // Se o nome estiver vazio, mantém o foco no campo para o usuário corrigir.
         if (!senderName) {
             senderInput.focus();
             return;
         }
 
-        // Guarda o nome apenas durante a sessao atual do navegador.
+        // Guarda o nome apenas durante a sessão atual do navegador.
         sessionStorage.setItem('chat.sender', senderName);
-        // Redireciona o usuario para a tela do chat.
+        // Redireciona o usuário para a tela do chat.
         window.location.href = '/chat.html';
     });
 
-    // Se ja houver um nome salvo, reaproveita no campo para facilitar uma nova entrada.
+    // Se já houver um nome salvo, reaproveita no campo para facilitar uma nova entrada.
     const storedName = sessionStorage.getItem('chat.sender');
     if (storedName) {
         senderInput.value = storedName;
