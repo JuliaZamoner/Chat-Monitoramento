@@ -3,32 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar | Chat LAN</title>
+    <title>Entrar | Monitor Rio Tiete</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <!-- Tela inicial onde o usuario informa o nome antes de entrar na sala. -->
 <main class="single-layout">
     <section class="panel hero login-panel">
-        <p class="eyebrow">Spring Boot + WebSocket</p>
-        <h1>Chat para a mesma rede</h1>
+        <p class="hero-brand">Secretaria de Estado do Meio Ambiente</p>
+        <p class="eyebrow">Painel de monitoramento ambiental</p>
+        <h1>Monitor Colaborativo</h1>
         <p class="description">
-            Execute o servidor em um computador e abra este mesmo endereco nos outros dispositivos da rede local.
+            Registre observacoes em tempo real sobre atividades industriais com potencial de poluicao ao longo do rio,
+            desde a nascente em Salesopolis (SP).
         </p>
+        <div class="theme-strip" aria-label="Temas monitorados">
+            <span class="theme-chip">Nascente</span>
+            <span class="theme-chip">Trechos do rio</span>
+            <span class="theme-chip">Fontes industriais</span>
+            <span class="theme-chip">Ocorrencias ambientais</span>
+        </div>
 
         <!-- Formulario que captura o nome do usuario. -->
         <form id="join-form" class="join-form">
-            <label for="sender">Seu nome</label>
+            <label for="sender">Identificacao do agente</label>
             <div class="join-row">
-                <input id="sender" name="sender" type="text" maxlength="24" placeholder="Ex.: Julia" required>
-                <button type="submit">Entrar</button>
+                <input id="sender" name="sender" type="text" maxlength="24" placeholder="Ex.: Julia - Fiscalizacao" required>
+                <button type="submit">Acessar painel</button>
             </div>
         </form>
 
         <!-- Bloco informativo mostrando como acessar a aplicacao pela rede local. -->
         <div class="info-card">
-            <strong>Como usar na LAN</strong>
-            <p>Se o servidor rodar no IP <code>192.168.0.15</code>, os outros computadores acessam <code>http://192.168.0.15:8080</code>.</p>
+            <p class="section-label">Operacao em rede local</p>
+            <strong>Compartilhamento entre equipes de campo</strong>
+            <p>Se o servidor rodar no IP <code>192.168.0.15</code>, as demais estacoes acessam <code>http://192.168.0.15:8080</code> para acompanhar e registrar ocorrencias no mesmo painel.</p>
         </div>
     </section>
 </main>

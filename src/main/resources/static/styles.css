@@ -1,14 +1,18 @@
 :root {
     /* Variaveis de cor e sombra reaproveitadas em toda a interface. */
-    --bg: #f5efe3;
-    --panel: rgba(255, 252, 246, 0.9);
-    --panel-strong: #fffaf1;
-    --text: #1f2933;
-    --muted: #52606d;
-    --accent: #c2512d;
-    --accent-dark: #8f3416;
-    --border: rgba(31, 41, 51, 0.12);
-    --shadow: 0 24px 80px rgba(80, 58, 40, 0.14);
+    --bg: #e6f0ea;
+    --panel: rgba(244, 250, 246, 0.9);
+    --panel-strong: rgba(237, 246, 241, 0.96);
+    --text: #17322b;
+    --muted: #537067;
+    --accent: #1f6c5b;
+    --accent-dark: #12463a;
+    --accent-soft: #7fb08f;
+    --warning: #b7682f;
+    --warning-soft: #f0d3af;
+    --river: #2f7f95;
+    --border: rgba(23, 50, 43, 0.12);
+    --shadow: 0 24px 80px rgba(19, 55, 47, 0.16);
 }
 
 * {
@@ -20,12 +24,39 @@ body {
     /* Remove margens padrao e define o fundo geral da aplicacao. */
     margin: 0;
     min-height: 100vh;
-    font-family: "Segoe UI", sans-serif;
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
     color: var(--text);
     background:
-        radial-gradient(circle at top left, rgba(194, 81, 45, 0.18), transparent 32%),
-        radial-gradient(circle at bottom right, rgba(60, 146, 119, 0.18), transparent 26%),
-        linear-gradient(135deg, #f7f1e6 0%, #efe4d2 100%);
+        radial-gradient(circle at top left, rgba(127, 176, 143, 0.28), transparent 32%),
+        radial-gradient(circle at top right, rgba(47, 127, 149, 0.22), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(183, 104, 47, 0.18), transparent 24%),
+        linear-gradient(145deg, #edf7f1 0%, #dcebe2 48%, #d4e3dc 100%);
+}
+
+body::before {
+    /* Faixa organica sugere o curso do rio atravessando a tela. */
+    content: "";
+    position: fixed;
+    inset: auto -8vw 10% auto;
+    width: 48vw;
+    height: 48vw;
+    border-radius: 42% 58% 63% 37% / 40% 35% 65% 60%;
+    background: radial-gradient(circle, rgba(47, 127, 149, 0.18) 0%, rgba(47, 127, 149, 0.05) 52%, transparent 72%);
+    pointer-events: none;
+    filter: blur(10px);
+}
+
+body::after {
+    /* Mancha quente referencia pontos de pressao industrial sobre o ambiente. */
+    content: "";
+    position: fixed;
+    inset: 8% auto auto -10vw;
+    width: 34vw;
+    height: 34vw;
+    border-radius: 55% 45% 42% 58% / 57% 45% 55% 43%;
+    background: radial-gradient(circle, rgba(183, 104, 47, 0.14) 0%, rgba(183, 104, 47, 0.04) 56%, transparent 75%);
+    pointer-events: none;
+    filter: blur(12px);
 }
 
 .layout {
@@ -40,7 +71,7 @@ body {
 
 .single-layout {
     /* Centraliza a tela de entrada vertical e horizontalmente. */
-    width: min(720px, calc(100% - 32px));
+    width: min(920px, calc(100% - 32px));
     min-height: 100vh;
     margin: 0 auto;
     display: flex;
@@ -66,11 +97,23 @@ body {
     border-radius: 28px;
     box-shadow: var(--shadow);
     backdrop-filter: blur(14px);
+    position: relative;
+    overflow: hidden;
 }
 
 .hero {
     /* Espacamento interno do painel de destaque. */
-    padding: 32px;
+    padding: 36px 40px;
+}
+
+.hero::after,
+.chat-panel::after {
+    /* Brilho sutil para dar profundidade sem poluir a leitura. */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, transparent 30%);
+    pointer-events: none;
 }
 
 .login-panel {
@@ -87,6 +130,18 @@ body {
     color: var(--accent-dark);
 }
 
+.hero-brand {
+    /* Titulo institucional com mais peso visual na abertura do painel. */
+    margin: 0 0 12px;
+    font-size: clamp(1.55rem, 2.5vw, 2.2rem);
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    max-width: none;
+    white-space: nowrap;
+}
+
 h1,
 h2 {
     /* Remove margem padrao dos titulos e ajusta altura de linha. */
@@ -96,7 +151,9 @@ h2 {
 
 h1 {
     /* Titulo principal responsivo na tela de entrada. */
-    font-size: clamp(2.4rem, 5vw, 4.8rem);
+    font-size: clamp(2rem, 3.6vw, 3.2rem);
+    max-width: none;
+    text-align: center;
 }
 
 h2 {
@@ -120,6 +177,24 @@ h2 {
 .info-card {
     /* Separa visualmente os blocos do painel de entrada. */
     margin-top: 28px;
+}
+
+.theme-strip {
+    /* Linha de marcadores resume o foco ambiental do projeto. */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.theme-chip {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(31, 108, 91, 0.1);
+    border: 1px solid rgba(31, 108, 91, 0.12);
+    color: var(--accent-dark);
+    font-size: 0.9rem;
+    font-weight: 700;
 }
 
 .join-form label {
@@ -148,19 +223,25 @@ input {
     /* Aparencia dos campos de texto. */
     width: 100%;
     padding: 14px 16px;
-    background: rgba(255, 255, 255, 0.78);
+    background: rgba(255, 255, 255, 0.82);
+    color: var(--text);
+}
+
+input:focus {
+    outline: 2px solid rgba(47, 127, 149, 0.22);
+    border-color: rgba(47, 127, 149, 0.34);
 }
 
 button {
     /* Estilo principal dos botoes de acao. */
     padding: 14px 18px;
     border: none;
-    background: linear-gradient(135deg, var(--accent) 0%, #dd7a45 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--river) 100%);
     color: white;
     font-weight: 700;
     cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
-    box-shadow: 0 12px 24px rgba(194, 81, 45, 0.28);
+    box-shadow: 0 12px 24px rgba(31, 108, 91, 0.24);
 }
 
 button:hover:enabled {
@@ -181,6 +262,29 @@ input:disabled {
     border-radius: 20px;
     background: var(--panel-strong);
     border: 1px solid var(--border);
+    position: relative;
+}
+
+.info-card::before {
+    /* Faixa lateral destaca o card como aviso contextual. */
+    content: "";
+    position: absolute;
+    inset: 14px auto 14px 0;
+    width: 6px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--warning) 0%, var(--accent) 100%);
+}
+
+.info-card strong,
+.section-label {
+    color: var(--accent-dark);
+}
+
+.section-label {
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
 }
 
 .chat-panel {
@@ -217,7 +321,7 @@ input:disabled {
     border: 1px solid var(--border);
     color: var(--text);
     text-decoration: none;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.72);
     font-weight: 600;
 }
 
@@ -231,14 +335,14 @@ input:disabled {
 
 .status.online {
     /* Cor mostrada quando o WebSocket esta conectado. */
-    background: rgba(33, 145, 107, 0.15);
-    color: #176b4e;
+    background: rgba(31, 108, 91, 0.14);
+    color: var(--accent-dark);
 }
 
 .status.offline {
     /* Cor mostrada quando o cliente esta desconectado. */
-    background: rgba(164, 63, 63, 0.14);
-    color: #8c2e2e;
+    background: rgba(183, 104, 47, 0.18);
+    color: #8a4b1d;
 }
 
 .messages {
@@ -248,8 +352,9 @@ input:disabled {
     overflow-y: auto;
     padding: 12px;
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(237, 246, 241, 0.84) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.76);
 }
 
 .message {
@@ -258,15 +363,16 @@ input:disabled {
     margin: 0 0 14px;
     padding: 14px 16px;
     border-radius: 18px 18px 18px 6px;
-    background: white;
-    box-shadow: 0 10px 24px rgba(79, 70, 60, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 24px rgba(40, 78, 68, 0.08);
+    border: 1px solid rgba(31, 108, 91, 0.08);
 }
 
 .message.mine {
     /* Variante das mensagens enviadas pelo proprio usuario. */
     margin-left: auto;
     border-radius: 18px 18px 6px 18px;
-    background: #fff2ea;
+    background: linear-gradient(180deg, #e7f3ef 0%, #dbefe8 100%);
 }
 
 .message header {
@@ -297,6 +403,9 @@ input:disabled {
     margin: 0 0 14px;
     text-align: center;
     font-size: 0.92rem;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(240, 211, 175, 0.34);
 }
 
 .message-form {
@@ -324,5 +433,10 @@ input:disabled {
         /* Empilha o cabecalho em dispositivos menores. */
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .hero-brand {
+        /* Permite quebra em telas menores para evitar overflow horizontal. */
+        white-space: normal;
     }
 }

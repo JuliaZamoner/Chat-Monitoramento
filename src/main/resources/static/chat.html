@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sala | Chat LAN</title>
+    <title>Painel | Monitor Rio Tiete</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -12,14 +12,14 @@
     <section class="panel chat-panel">
         <div class="chat-header">
             <div>
-                <p class="eyebrow">Sala unica</p>
-                <h2>Mensagens em tempo real</h2>
+                <p class="eyebrow">Monitoramento compartilhado</p>
+                <h2>Ocorrencias em tempo real</h2>
                 <!-- Texto preenchido dinamicamente com o nome do usuario atual. -->
                 <p id="welcome" class="description compact"></p>
             </div>
             <div class="chat-actions">
                 <!-- Link para voltar a tela inicial e trocar o nome armazenado na sessao. -->
-                <a class="secondary-button" href="/">Trocar nome</a>
+                <a class="secondary-button" href="/">Trocar identificacao</a>
                 <!-- Indicador visual do estado da conexao WebSocket. -->
                 <span id="status" class="status offline">Desconectado</span>
             </div>
@@ -30,8 +30,8 @@
 
         <!-- Formulario usado para enviar novas mensagens para o servidor. -->
         <form id="message-form" class="message-form">
-            <input id="message" name="message" type="text" maxlength="400" placeholder="Digite sua mensagem..." disabled required>
-            <button type="submit" disabled>Enviar</button>
+            <input id="message" name="message" type="text" maxlength="400" placeholder="Descreva atividade industrial, trecho do rio ou indicio de poluicao..." disabled required>
+            <button type="submit" disabled>Registrar</button>
         </form>
     </section>
 </main>
@@ -59,7 +59,7 @@
     let stompClient = null;
 
     // Exibe na tela o nome do usuario autenticado localmente.
-    welcome.textContent = 'Conectado como ' + senderName + '.';
+    welcome.textContent = 'Agente conectado: ' + senderName + '.';
 
     // Intercepta o envio do formulario para mandar a mensagem pelo WebSocket.
     messageForm.addEventListener('submit', (event) => {
@@ -109,7 +109,7 @@
         statusBadge.textContent = 'Conectado';
         statusBadge.className = 'status online';
         // Mostra um aviso local na interface quando o usuario entra na sala.
-        renderSystemMessage(senderName + ' entrou na sala.');
+        renderSystemMessage(senderName + ' iniciou o monitoramento neste painel.');
     }
 
     function onError() {
