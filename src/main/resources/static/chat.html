@@ -14,21 +14,21 @@
             <div>
                 <p class="eyebrow">Bate-Papo</p>
                 <h2>Conversa</h2>
-                <!-- Texto preenchido dinamicamente com o nome do usuário atual. -->
+                <!-- Texto preenchido dinamicamente com o nome do usuario atual. -->
                 <p id="welcome" class="description compact"></p>
             </div>
             <div class="chat-actions">
-                <!-- Link para voltar a tela inicial e trocar o nome armazenado na sessão. -->
+                <!-- Link para voltar a tela inicial e trocar o nome armazenado na sessao. -->
                 <a class="secondary-button" href="/">Alterar Nome</a>
                 <!-- Indicador visual do estado da conexao WebSocket. -->
                 <span id="status" class="status offline">Desconectado</span>
             </div>
         </div>
 
-        <!-- Area onde todas as mensagens recebidas serão adicionadas. -->
+        <!-- Area onde todas as mensagens recebidas serao adicionadas. -->
         <div id="messages" class="messages" aria-live="polite"></div>
 
-        <!-- Formulário usado para enviar novas mensagens para o servidor. -->
+        <!-- Formulario usado para enviar novas mensagens para o servidor. -->
         <form id="message-form" class="message-form">
             <input id="message" name="message" type="text" maxlength="400" disabled required>
             <button type="submit" disabled>Registrar</button>
@@ -55,39 +55,39 @@
     const sendButton = messageForm.querySelector('button');
     const welcome = document.getElementById('welcome');
 
-    // Cliente STOMP usado para conversar com o backend através do WebSocket.
+    // Cliente STOMP usado para conversar com o backend atraves do WebSocket.
     let stompClient = null;
 
-    // Exibe na tela o nome do usuário autenticado localmente.
+    // Exibe na tela o nome do usuario autenticado localmente.
     welcome.textContent = 'Agente conectado: ' + senderName + '.';
 
-    // Intercepta o envio do formulário para mandar a mensagem pelo WebSocket.
+    // Intercepta o envio do formulario para mandar a mensagem pelo WebSocket.
     messageForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        // Pega o texto digitado e remove espaços extras nas pontas.
+        // Pega o texto digitado e remove espacos extras nas pontas.
         const content = messageInput.value.trim();
 
-        // Nao envia se a mensagem estiver vazia ou se a conexão ainda não estiver pronta.
+        // Nao envia se a mensagem estiver vazia ou se a conexao ainda nao estiver pronta.
         if (!content || !stompClient) {
             return;
         }
 
-        // Envia ao backend o nome do remetente e o conteúdo da mensagem.
+        // Envia ao backend o nome do remetente e o conteudo da mensagem.
         stompClient.send('/app/send', {}, JSON.stringify({
             sender: senderName,
             content: content
         }));
 
-        // Limpa o campo para a próxima mensagem e devolve o foco ao input.
+        // Limpa o campo para a proxima mensagem e devolve o foco ao input.
         messageInput.value = '';
         messageInput.focus();
     });
 
-    // Tenta abrir a conexão com o servidor assim que a pagina carrega.
+    // Tenta abrir a conexao com o servidor assim que a pagina carrega.
     connect();
 
     function connect() {
-        // Abre a conexão no endpoint configurado pelo backend.
+        // Abre a conexao no endpoint configurado pelo backend.
         const socket = new SockJS('/chat');
         // Envolve a conexao com STOMP para facilitar subscribe/send.
         stompClient = Stomp.over(socket);
@@ -95,12 +95,13 @@
         stompClient.connect({}, onConnected, onError);
     }
 
-    function onConnected() {
+    async function onConnected() {
         stompClient.subscribe('/topic/messages', (payload) => {
             renderMessage(JSON.parse(payload.body));
         });
 
-        // Libera o formulário de envio depois que a conexão estiver ativa.
+        await loadHistory();
+        // Libera o formulario de envio depois que a conexao estiver ativa.
         messageInput.disabled = false;
         sendButton.disabled = false;
         messageInput.focus();
@@ -118,6 +119,28 @@
         stompClient = null;
     }
 
+    async function loadHistory() {
+        try {
+            const response = await fetch('/api/messages');
+
+            if (!response.ok) {
+                renderSystemMessage('Nao foi possivel carregar o historico.');
+                return;
+            }
+
+            const history = await response.json();
+
+            if (history.length === 0) {
+                renderSystemMessage('Historico vazio. Envie a primeira mensagem.');
+                return;
+            }
+
+            history.forEach(renderMessage);
+        } catch (error) {
+            renderSystemMessage('Nao foi possivel carregar o historico.');
+        }
+    }
+
     function renderMessage(message) {
         // Cria o container visual de cada mensagem recebida.
         const wrapper = document.createElement('article');
@@ -133,10 +156,10 @@
         // Monta o HTML da mensagem ja escapando conteudo potencialmente perigoso.
         wrapper.innerHTML = `
             <header>
-                <strong>${escapeHtml(message.sender)}</strong>
+                <strong>${escapeHtml(message.sender || 'Anonimo')}</strong>
                 <span>${time}</span>
             </header>
-            <p>${escapeHtml(message.content)}</p>
+            <p>${escapeHtml(message.content || '')}</p>
         `;
 
         // Adiciona a mensagem no fim da lista e faz o scroll acompanhar a conversa.
@@ -155,7 +178,7 @@
 
     function escapeHtml(value) {
         // Escapa caracteres especiais para evitar injecao de HTML no chat.
-        return value
+        return String(value)
             .replaceAll('&', '&amp;')
             .replaceAll('<', '&lt;')
             .replaceAll('>', '&gt;')
