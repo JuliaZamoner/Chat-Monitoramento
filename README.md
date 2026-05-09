@@ -1,4 +1,4 @@
-# Chat com Spring Boot
+# Chat de Monitoramento
 
 Aplicação de chat em tempo real usando Spring Boot + WebSocket/STOMP.
 

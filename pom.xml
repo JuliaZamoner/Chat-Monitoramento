@@ -12,10 +12,10 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>lan-chat</artifactId>
+    <artifactId>chat-monitoramento</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>lan-chat</name>
-    <description>Chat em rede local com Spring Boot e WebSocket</description>
+    <name>Chat de Monitoramento</name>
+    <description>Chat de monitoramento em rede local com Spring Boot e WebSocket</description>
 
     <properties>
         <java.version>21</java.version>
