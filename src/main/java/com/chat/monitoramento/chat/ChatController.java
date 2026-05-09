@@ -1,4 +1,4 @@
-package com.example.lanchat.chat;
+package com.chat.monitoramento.chat;
 
 import java.time.LocalDateTime;
 import java.util.List;

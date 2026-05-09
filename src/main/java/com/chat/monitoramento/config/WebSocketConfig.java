@@ -1,4 +1,4 @@
-package com.example.lanchat.config;
+package com.chat.monitoramento.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

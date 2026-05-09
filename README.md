@@ -27,7 +27,7 @@ Exemplo:
 
 ### IntelliJ
 
-Rode a classe `com.example.lanchat.ChatApplication`.
+Rode a classe `com.chat.monitoramento.ChatApplication`.
 
 ### Terminal
 

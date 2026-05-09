@@ -1,4 +1,4 @@
-package com.example.lanchat.chat;
+package com.chat.monitoramento.chat;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

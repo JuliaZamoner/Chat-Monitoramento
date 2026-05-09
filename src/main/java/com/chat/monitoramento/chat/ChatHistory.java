@@ -1,4 +1,4 @@
-package com.example.lanchat.chat;
+package com.chat.monitoramento.chat;
 
 import java.util.ArrayList;
 import java.util.List;
